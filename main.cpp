@@ -6,11 +6,11 @@ void selection();
 
 /*Suma de la primera cantidad n de datos del arreglo*/
 int sumArrDataPos(int n, int a[]) {
-    if (n == 0) {
-        return a[n];
+    if (n == 1) {
+        return a[n - 1];
     } else {
         n--;
-        return a[n + 1] + sumArrDataPos(n, a);
+        return a[n] + sumArrDataPos(n, a);
     }
 }
 
@@ -28,7 +28,7 @@ int auxSumTailArr(int limitSum) {
 
 /*Fibonacci Posposicion*/
 int fibonacciPos(int n) {
-    return (n == 0) ? 0 : n - 1 + fibonacciPos(n - 1);
+    return (n < 2) ? n : fibonacciPos(n - 1) + fibonacciPos(n - 2);
 }
 
 /*Fibonacci Cola*/
@@ -48,18 +48,17 @@ int auxFibFunc(int n) {
 void matrixSum(int A[][3], int B[][3], int C[][3], int fila, int column) {
     if(fila == 2 && column == 2) {
         C[fila][column] = A[fila][column] + B[fila][column];
-        cout << C[fila][column] << " " << endl;
+        cout << C[fila][column] << " ";
+        cout << endl;
         selection();
     } else {
         if(column > 2){
             fila++;
             column = 0;
-            //cout << endl;
+            cout << endl;
         } else {
             C[fila][column] = A[fila][column] + B[fila][column];
-
-            cout << C[fila][column] << " " << endl;
-
+            cout << C[fila][column] << " ";
             column++;
         }
         matrixSum(A, B, C, fila, column);
@@ -70,7 +69,7 @@ void matrixSum(int A[][3], int B[][3], int C[][3], int fila, int column) {
 int llenadoMatrix(int matrix[][3]) {
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-            cout << "Ingrese un entero: " << endl;
+            cout << "Ingrese un entero (Posicion" <<  i + 1 << "," << j + 1 << "):" << endl;
             cin >> matrix[i][j];
         }
     }
@@ -94,11 +93,10 @@ int busMenNumArray(int array[], int menor, int aux){
 //Funcion para llenar el arreglo
 int llenadoArray(int *array, int tamA, int aux) {
     if (aux < tamA) {
-        cout << "Ingresa el " << aux + 1 << " valor:" << endl;
+        cout << "Ingresa el " << aux + 1 << " valor de " << tamA << endl;
         cin >> array[aux];
         llenadoArray(array, tamA, aux + 1);
-    } else busMenNumArray(array, tamA, array[0]);
-    return 0;
+    } else busMenNumArray(array, array[aux], tamA - 1);
 }
 
 /*Funcionalidad del Menú*/
@@ -155,16 +153,19 @@ void selection() {
             cin >> cantidad;
             cout << "El resultado es: " << auxSumTailArr(cantidad) << endl;
             selection();
-
             break;
         }
         case 5: {
             int A[3][3], B[3][3], C[3][3] = {{0, 0, 0},
                                              {0, 0, 0},
                                              {0, 0, 0}};
+            cout << "Se procede a llenar la matriz 'A': " << endl;
             llenadoMatrix(A);
+            cout << "Se procede a llenar la matriz 'B': " << endl;
             llenadoMatrix(B);
             matrixSum(A, B, C, 0, 0);
+            cout << endl;
+            selection();
             break;
         }
         case 6: {
@@ -173,16 +174,16 @@ void selection() {
             cin >> base;
             cout << "Ingresa el exponente: " << endl;
             cin >> exponente;
-            cout << "Resultado: " << equisALaN(base, exponente);
+            cout << base << "^" << exponente << " = " << equisALaN(base, exponente) << endl;
             selection();
             break;
     }
         case 7: {
             int t;
-            cout << "Ingresa el tamaño del arreglo: " << endl;
+            cout << "Ingresa la dimension del arreglo: " << endl;
             cin >> t;
             int a[t];
-            cout << "El valor 'menor' es: " << llenadoArray(a, t, 0) << endl;
+            cout << "Se procede a llenar el arreglo:\n " << llenadoArray(a, t, 0) << endl;
             selection();
             break;
         }
